@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.5.1-0-g916b5db  Build Version: 1.5.7152.31018
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="Ram">
+  <link
+    name="right_top">
+    <inertial>
+      <origin
+        xyz="0.401500000000003 -0.315426263306673 -0.012426263306643"
+        rpy="0 0 0" />
+      <mass
+        value="0.699338413252133" />
+      <inertia
+        ixx="0.000304531610727187"
+        ixy="1.68559556503606E-19"
+        ixz="-2.4207257087884E-19"
+        iyy="0.0241614763732286"
+        iyz="1.30567395094594E-05"
+        izz="0.0241611551380284" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://Ram/meshes/right_top.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.823529411764706 0.823529411764706 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://Ram/meshes/right_top.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="front_top">
+    <inertial>
+      <origin
+        xyz="-5.82867087928207E-15 3.10862446895044E-15 -0.285"
+        rpy="0 0 0" />
+      <mass
+        value="0.468196582218756" />
+      <inertia
+        ixx="0.0127458531863491"
+        ixy="4.60451638941205E-17"
+        ixz="3.94769143640052E-20"
+        iyy="0.0127443386785367"
+        iyz="7.96459899746102E-19"
+        izz="0.000137346937771517" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://Ram/meshes/front_top.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.823529411764706 0.823529411764706 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://Ram/meshes/front_top.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_top_joint"
+    type="fixed">
+    <origin
+      xyz="0.7815 -0.321499999999993 0.00150000000000008"
+      rpy="3.14159265358979 0 -1.5707963267949" />
+    <parent
+      link="right_top" />
+    <child
+      link="front_top" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="back_top">
+    <inertial>
+      <origin
+        xyz="-5.88418203051333E-15 -3.1641356201817E-15 0.285"
+        rpy="0 0 0" />
+      <mass
+        value="0.468196582218758" />
+      <inertia
+        ixx="0.0127458531863491"
+        ixy="-4.60338418594862E-17"
+        ixz="-4.43681903075063E-20"
+        iyy="0.0127443386785367"
+        iyz="-2.08739010885714E-20"
+        izz="0.000137346937771517" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://Ram/meshes/back_top.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.823529411764706 0.823529411764706 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://Ram/meshes/back_top.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="back_top_joint"
+    type="fixed">
+    <origin
+      xyz="0.0215 -0.321499999999993 0.5715"
+      rpy="3.14159265358979 0 1.5707963267949" />
+    <parent
+      link="right_top" />
+    <child
+      link="back_top" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="top_left">
+    <inertial>
+      <origin
+        xyz="0.359999999999997 -0.00626031270220229 0.0539262633066733"
+        rpy="0 0 0" />
+      <mass
+        value="0.699338413252134" />
+      <inertia
+        ixx="0.000304531610727188"
+        ixy="-1.95664610815743E-19"
+        ixz="-1.85191690010518E-20"
+        iyy="0.0241611551380285"
+        iyz="1.30567395093915E-05"
+        izz="0.0241614763732287" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://Ram/meshes/top_left.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.823529411764706 0.823529411764706 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://Ram/meshes/top_left.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="top_left_joint"
+    type="fixed">
+    <origin
+      xyz="0.059999999999993 0.02 -0.02"
+      rpy="-1.5707963267949 0 1.5707963267949" />
+    <parent
+      link="back_top" />
+    <child
+      link="top_left" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="front_middle_left_vertical">
+    <inertial>
+      <origin
+        xyz="-5.55111512312578E-15 -1.86517468137026E-14 0.15"
+        rpy="0 0 0" />
+      <mass
+        value="0.230983704603357" />
+      <inertia
+        ixx="0.00177048017234289"
+        ixy="-1.41811553410169E-17"
+        ixz="-2.48236847528475E-20"
+        iyy="0.00177061402034288"
+        iyz="-2.17993340461606E-20"
+        izz="7.63386236369201E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://Ram/meshes/front_middle_left_vertical.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.823529411764706 0.823529411764706 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+     
