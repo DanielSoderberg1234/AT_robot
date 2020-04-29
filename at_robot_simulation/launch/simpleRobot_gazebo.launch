@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<launch>
-
-    <include file="$(find gazebo_ros)/launch/empty_world.launch" >
-    </include>
-
-    <include file="$(find at_robot_simulation)/launch/spawn.launch">
-    </include>
-</launch>
