@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+
+<robot>
+
+   <macro name="joint_wheel" params="name child parent origin_xyz">
+      <joint name="${name}" type="continuous">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis rpy="0 0 0" xyz="0 1 0"/>
+        <limit effort="10000" velocity="1000"/>
+        <joint_properties damping="1.0" friction="1.0"/>
+      </joint>
+    </macro>
+
+    <macro name="link_collision_box" params="name xyz rpy size">
+        <link name="${name}">
+            <inertial>
+              <mass value="0"/>
+              <origin rpy="${rpy}" xyz="${xyz}"/>
+              <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+            </inertial>
+            <collision name="link_collision_box_collision">
+              <origin rpy="${rpy}" xyz="${xyz}"/>
+              <geometry>
+                <box size="${size}"/>
+              </geometry>
+            </collision>
+            <visual name="${name}_visual">
+              <origin rpy="${rpy}" xyz="${xyz}"/>
+              <geometry>
+                <box size="${size}"/>
+              </geometry>
+              <material name="transparent"/>
+            </visual>
+        </link>
+    </macro>
+
+    <macro name="joint_box" params="name child parent origin_xyz">
+      <joint name="${name}" type="fixed">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis rpy="0 0 0" xyz="0 0 0"/>
+      </joint>
+    </macro>
+
+
+
+    <macro name="joint_wheel_attachment" params="name child parent origin_xyz">
+      <joint name="${name}" type="continuous">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis rpy="0 0 0" xyz="0 0 1"/>
+      </joint>
+    </macro>
+
+    
+    <macro name="link_collision_wheel" params="name length radius">
+        <link name="${name}">
+            <inertial>
+              <mass value="0.225"/>
+              <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+              <inertia ixx="0.00007564" ixy="0" ixz="0" iyy="0.0001197" iyz="0" izz="0.00007563"/>
+            </inertial>
+            <collision name="${name}_collision">
+              <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+              <geometry>
+                <cylinder length="${length}" radius="${radius}"/>
+              </geometry>
+            </collision>
+            <visual name="${name}_visual">
+              <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+              <geometry>
+                <cylinder length="${length}" radius="${radius}"/>
+              </geometry>
+            </visual>
+        </link>
+    </macro>
+
+</robot>

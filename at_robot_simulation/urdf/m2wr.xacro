@@ -1,0 +1,151 @@
+<?xml version="1.0" ?>
+<robot name="m2wr" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find at_robot_simulation)/urdf/materials.xacro" />
+  <xacro:include filename="$(find at_robot_simulation)/urdf/macros.xacro" />
+  <xacro:include filename="$(find at_robot_simulation)/urdf/meshes_macros.xacro" />
+
+<m_link_mesh name="link_chassis"
+              m_rpy="0 0 0" m_xyz="0.4015 0.286069 0.182452"
+              v_rpy="0 0 0" v_xyz="0 0 0"
+              mass="18.97"
+              ixx="1.719" ixy="0.002" ixz="0.000000000000008"
+              iyy="0.1964" iyz="-0.00035"
+              izz="3.082"
+              meshfile="ram.dae"
+              meshscale="1 1 1" 
+              material="orange"/>
+
+
+<xacro:link_collision_box name="link_box_back" 
+                          rpy="0 0 0" 
+                          xyz="0.135 0.3244 0.16875" 
+                          size="0.27 0.648 0.3375 "/>
+<xacro:joint_box name="joint_link_box_back"
+                 child="link_box_back" 
+                 parent="link_chassis" 
+                 origin_xyz="0 -0.04 0" /> 
+
+<xacro:link_collision_box name="link_box_middle" 
+                          rpy="0 0 0" 
+                          xyz="0.125 0.324 0.019" 
+                          size="0.25 0.648 0.038 "/>
+<xacro:joint_box name="joint_link_box_middle"
+                 child="link_box_middle" 
+                 parent="link_chassis" 
+                 origin_xyz="0.2735 -0.04 0.2995" /> 
+                 
+                 <!-- x=-0.135+0.799=664 -->
+<xacro:link_collision_box name="link_box_front" 
+                          rpy="0 0 0" 
+                          xyz="0.135 0.3244 0.16875" 
+                          size="0.27 0.648 0.3375 "/>
+<xacro:joint_box name="joint_link_box_front"
+                 child="link_box_front" 
+                 parent="link_chassis" 
+                 origin_xyz="0.528 -0.04 0" /> 
+
+<!--WHEELS ______________________________________________________________
+_________________________________________________________________________
+_________________________________________________________________________
+-->
+
+<m_link_mesh name="link_wheel_1"
+              m_rpy="0 0 0" m_xyz="-0.039406 -0.000781 0.064593"
+              v_rpy="0 0 0" v_xyz="0.039406 0.000781 -0.064593"
+              mass="0.447"
+              ixx="0.0005542" ixy="-0.00000001863" ixz="-0.0000004319"
+              iyy="0.0006282" iyz="0.00000003047"
+              izz="0.0004548"
+              meshfile="hjul.dae"
+              meshscale="1 1 1" 
+              material="red"/>
+<xacro:joint_wheel_attachment name="joint_wheel_1"
+                   child="link_wheel_1"
+                   parent="link_chassis"
+                   origin_xyz="0.0293 -0.001999 -0.036349" />
+
+
+<xacro:link_collision_wheel name="link_collision_wheel_1" 
+                          length="0.030"
+                          radius="0.036"/>
+<xacro:joint_wheel name="joint_collision_wheel_1"
+                 child="link_collision_wheel_1" 
+                 parent="link_wheel_1" 
+                 origin_xyz="0.044199 0.00046 -0.054651" /> 
+
+
+<m_link_mesh name="link_wheel_2"
+              m_rpy="0 0 0" m_xyz="-0.039406 -0.000781 0.064593"
+              v_rpy="0 0 0" v_xyz="0.039406 0.000781 -0.064593"
+              mass="0.447"
+              ixx="0.0005542" ixy="-0.00000001863" ixz="-0.0000004319"
+              iyy="0.0006282" iyz="0.00000003047"
+              izz="0.0004548"
+              meshfile="hjul.dae"
+              meshscale="1 1 1" 
+              material="red"/>
+<xacro:joint_wheel_attachment name="joint_wheel_2"
+                   child="link_wheel_2"
+                   parent="link_chassis"
+                   origin_xyz="0.029407 0.575001 -0.036361" />
+
+
+<xacro:link_collision_wheel name="link_collision_wheel_2" 
+                          length="0.030"
+                          radius="0.036"/>
+<xacro:joint_wheel name="joint_collision_wheel_2"
+                 child="link_collision_wheel_2" 
+                 parent="link_wheel_2" 
+                 origin_xyz="0.044199 0.00046 -0.054651" /> 
+
+
+<m_link_mesh name="link_wheel_3"
+              m_rpy="0 0 0" m_xyz="-0.039406 -0.000781 0.064593"
+              v_rpy="0 0 0" v_xyz="0.039406 0.000781 -0.064593"
+              mass="0.447"
+              ixx="0.0005542" ixy="-0.00000001863" ixz="-0.0000004319"
+              iyy="0.0006282" iyz="0.00000003047"
+              izz="0.0004548"
+              meshfile="hjul.dae"
+              meshscale="1 1 1" 
+              material="red"/>
+<xacro:joint_wheel_attachment name="joint_wheel_3"
+                   child="link_wheel_3"
+                   parent="link_chassis"
+                   origin_xyz="0.7563 -0.003799 -0.036361" />
+
+
+<xacro:link_collision_wheel name="link_collision_wheel_3" 
+                          length="0.030"
+                          radius="0.036"/>
+<xacro:joint_wheel name="joint_collision_wheel_3"
+                 child="link_collision_wheel_3" 
+                 parent="link_wheel_3" 
+                 origin_xyz="0.044199 0.00046 -0.054651" /> 
+
+
+<m_link_mesh name="link_wheel_4"
+              m_rpy="0 0 0" m_xyz="-0.039406 -0.000781 0.064593"
+              v_rpy="0 0 0" v_xyz="0.039406 0.000781 -0.064593"
+              mass="0.447"
+              ixx="0.0005542" ixy="-0.00000001863" ixz="-0.0000004319"
+              iyy="0.0006282" iyz="0.00000003047"
+              izz="0.0004548"
+              meshfile="hjul.dae"
+              meshscale="1 1 1" 
+              material="red"/>
+<xacro:joint_wheel_attachment name="joint_wheel_4"
+                   child="link_wheel_4"
+                   parent="link_chassis"
+                   origin_xyz="0.7563 0.575001 -0.036361" />
+
+<xacro:link_collision_wheel name="link_collision_wheel_4" 
+                          length="0.030"
+                          radius="0.036"/>
+<xacro:joint_wheel name="joint_collision_wheel_4"
+                 child="link_collision_wheel_4" 
+                 parent="link_wheel_4" 
+                 origin_xyz="0.044199 0.00046 -0.054651" /> 
+
+</robot>

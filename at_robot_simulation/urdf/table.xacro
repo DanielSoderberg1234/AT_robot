@@ -1,0 +1,348 @@
+<?xml version="1.0"?>
+
+<robot name="mybot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="cylinder_inertia" params="m r h">
+    <inertial>
+      <mass value="${m}"/>
+      <inertia ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0" iyy="${m*(3*r*r+h*h)/12}" iyz = "0" izz="${m*r*r/2}"/> 
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="box_inertia" params="m w h d">
+    <inertial>
+      <mass value="${m}"/>
+      <inertia ixx="${m / 12.0 * (d*d + h*h)}" ixy="0.0" ixz="0.0" iyy="${m / 12.0 * (w*w + h*h)}" iyz="0.0" izz="${m / 12.0 * (w*w + d*d)}"/>
+    </inertial>
+  </xacro:macro>
+
+
+    <!--Macro for the side alu profiles-->
+    <xacro:macro name="bottom_sides" params="name" >
+        <link name="${name}" >
+
+            <xacro:box_inertia m="1.61" w="0.8" h="0.038" d="0.038" />
+
+            <collision name="${name}">
+              <origin rpy="0 0 0" xyz="0 0 0"/>
+              <geometry>
+                <box size="0.8 0.038 0.038" />
+              </geometry>
+            </collision>
+
+            <visual name="${name}_visual">
+              <origin rpy="0 1.57 0" xyz="-0.40 0 0"/>
+              <geometry>
+                <mesh filename="package://at_robot_simulation/meshes/al_800.stl" scale="0.001 0.001 0.001" />
+                <!--<box size="0.8 0.038 0.038" />-->
+              </geometry>
+              <material name="grey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+              </material>
+            </visual>
+        </link>
+    </xacro:macro>
+
+
+    <!--Macro for the bottom front side alu profile-->
+    <xacro:macro name="bottom_front_back" params="name" >
+        <link name="${name}" >
+
+            <xacro:box_inertia m="1.189" w="0.038" h="0.57" d="0.038" />
+
+            <collision name="${name}">
+              <origin rpy="0 0 0" xyz="0 0 0"/>
+              <geometry>
+                <box size="0.038 0.57 0.038" />
+              </geometry>
+            </collision>
+
+            <visual name="${name}_visual">
+              <origin rpy="0 1.57 1.57" xyz="0 -0.285 0"/>
+              <geometry>
+                <mesh filename="package://at_robot_simulation/meshes/al_570.stl" scale="0.001 0.001 0.001" />
+                <!--<box size="0.038 0.57 0.038" />-->
+              </geometry>
+              <material name="grey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+              </material>
+            </visual>
+        </link>
+    </xacro:macro>
+
+    <!--Macro for the supports to the table-->
+    <xacro:macro name="support_profiles" params="name orgin_rpy origin_xyz" >
+        <link name="${name}" >
+
+            <xacro:box_inertia m="0.212" w="0.810" h="0.02" d="0.030" />
+
+            <collision name="${name}">
+              <origin rpy="${orgin_rpy}" xyz="${origin_xyz}"/>
+              <geometry>
+                <box size="0.810 0.02 0.030" />
+              </geometry>
+            </collision>
+
+            <visual name="${name}_visual">
+              <origin rpy="${orgin_rpy}" xyz="${origin_xyz}"/>
+              <geometry>
+                <!--<mesh filename="package://at_robot_simulation/meshes/al_800.stl" scale="0.001 0.001 0.001" />-->
+                <!--<box size="0.8 0.038 0.038" />-->
+                <box size="0.810 0.02 0.030" />
+              </geometry>
+              <material name="grey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+              </material>
+            </visual>
+        </link>
+    </xacro:macro>
+
+
+        <!--Macro for the supports to the table-->
+    <xacro:macro name="motor_table" params="name orgin_rpy origin_xyz" >
+        <link name="${name}" >
+
+            <xacro:box_inertia m="0.711" w="0.106" h="0.031" d="0.233" />
+
+            <collision name="${name}">
+              <origin rpy="${orgin_rpy}" xyz="${origin_xyz}"/>
+              <geometry>
+                <mesh filename="package://at_robot_simulation/meshes/motor_table.dae"  />
+              </geometry>
+            </collision>
+
+            <visual name="${name}_visual">
+              <origin rpy="${orgin_rpy}" xyz="${origin_xyz}"/>
+              <geometry>
+                <mesh filename="package://at_robot_simulation/meshes/motor_table.dae" />
+              </geometry>
+              <material name="grey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+              </material>
+            </visual>
+        </link>
+    </xacro:macro>
+
+    <!--Macro push link-->
+    <xacro:macro name="push_link" params="name origin_xyz" >
+        <link name="${name}" >
+
+            <xacro:cylinder_inertia m="0.01" r="0.011" h="0.25" />
+
+            <collision name="${name}">
+              <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+              <geometry>
+                <cylinder radius="0.011" length="0.25" />
+              </geometry>
+            </collision>
+
+            <visual name="${name}_visual">
+              <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+              <geometry>
+                <cylinder radius="0.011" length="0.25" />
+              </geometry>
+              <material name="grey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+              </material>
+            </visual>
+        </link>
+    </xacro:macro>
+
+
+    <!--Macro table link-->
+    <xacro:macro name="table" params="name origin_xyz" >
+        <link name="${name}" >
+
+            <xacro:box_inertia m="1.3" w="0.8" h="0.65" d="0.042" />
+
+            <collision name="${name}">
+              <origin rpy="-1.57 0 -1.57" xyz="${origin_xyz}"/>
+              <geometry>
+                <mesh filename="package://at_robot_simulation/meshes/bord.dae" />
+              </geometry>
+            </collision>
+
+            <visual name="${name}_visual">
+              <origin rpy="-1.57 0 -1.57" xyz="${origin_xyz}"/>
+              <geometry>
+                <mesh filename="package://at_robot_simulation/meshes/bord.dae" />
+              </geometry>
+              <material name="grey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+              </material>
+            </visual>
+        </link>
+    </xacro:macro>
+
+        <!--Macro wheel link-->
+    <xacro:macro name="wheels_table" params="name" >
+        <link name="${name}" >
+
+            <xacro:cylinder_inertia m="0.041" r="0.03" h="0.015" />
+
+            <collision name="${name}">
+              <origin rpy="1.57 0 0" xyz="0 0 0" />
+              <geometry>
+                <cylinder radius="0.03" length="0.015" />
+              </geometry>
+            </collision>
+
+            <visual name="${name}">
+              <origin rpy="1.57 0 0" xyz="0 0 0" />
+              <geometry>
+                <cylinder radius="0.03" length="0.015" />
+              </geometry>
+              <material name="grey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+              </material>
+            </visual>
+        </link>
+    </xacro:macro>
+
+    <!--Joint to tie the bottom frame together-->
+    <xacro:macro name="joint_bottom_table" params="name child parent origin_xyz">
+      <joint name="${name}_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis rpy="0 0 0" xyz="0 1 0"/>
+        <limit effort="10000" velocity="1000"/>
+      </joint>
+    </xacro:macro>
+
+    <!--Joint for the legs to the table-->
+    <xacro:macro name="joint_table_support" params="name child parent origin_xyz orgin_rpy upper lower">
+      <joint name="${name}_joint" type="revolute">
+        <origin rpy="${orgin_rpy}" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis rpy="0 0 0" xyz="0 1 0"/>
+        <limit effort="50" upper="${upper}" lower="${lower}" velocity="0.075"/>
+      </joint>
+
+      <transmission name="trans_${name}">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${name}_joint">
+                    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="motor_${name}">
+                    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+                    <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+      </transmission>
+
+    </xacro:macro>
+
+
+        <!--Joint for the legs to the table-->
+    <xacro:macro name="joint_motor_table" params="name child parent origin_xyz orgin_rpy">
+      <joint name="${name}_joint" type="fixed">
+        <origin rpy="${orgin_rpy}" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis rpy="0 0 0" xyz="0 1 0"/>
+        <limit effort="1" velocity="0.2"/>
+      </joint>
+    </xacro:macro>
+
+    <!--Fixed joint for push link-->
+     <xacro:macro name="joint_motor_push" params="name child parent origin_xyz">
+      <joint name="${name}_joint" type="prismatic">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis rpy="0 0 0" xyz="0 0 1"/>
+        <limit effort="100" upper="0.15" lower="0.0" velocity="0.05"/>
+      </joint>
+
+      <transmission name="trans_${name}">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${name}_joint">
+                    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="motor_${name}">
+                    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+                    <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+      </transmission>
+
+    </xacro:macro>
+
+    <!--Joint to the top table-->
+    <xacro:macro name="joint_top_table" params="name child parent origin_xyz">
+      <joint name="${name}_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis rpy="0 0 0" xyz="0 0 0"/>
+        <limit effort="10000" velocity="1000"/>
+      </joint>
+    </xacro:macro>
+
+    <!--Joint to connect wheels-->
+    <xacro:macro name="joint_table_wheels" params="name child parent origin_xyz">
+      <joint name="${name}_joint" type="continuous">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis rpy="0 0 0" xyz="0 1 0"/>
+        <limit effort="10" velocity="2.0"/>
+      </joint>
+    </xacro:macro>
+
+    
+
+    <!--Create alu profiles-->
+    <xacro:bottom_sides name="left_side" />
+    <xacro:bottom_sides name="right_side" />
+
+    <xacro:bottom_front_back name="front_alu" />
+    <xacro:bottom_front_back name="back_alu" />
+
+    <xacro:bottom_front_back name="middle_front_alu" />
+    <xacro:bottom_front_back name="middle_back_alu" />
+
+    <xacro:joint_bottom_table name="front_alu" child="front_alu" parent="left_side" origin_xyz="0.381 -0.304 0" />
+    <xacro:joint_bottom_table name="back_alu" child="back_alu" parent="left_side" origin_xyz="-0.381 -0.304 0" />
+    <xacro:joint_bottom_table name="middle_front_alu" child="middle_front_alu" parent="left_side" origin_xyz="0.019 -0.304 0" />
+    <xacro:joint_bottom_table name="middle_back_alu" child="middle_back_alu" parent="left_side" origin_xyz="-0.019 -0.304 0" />
+    <xacro:joint_bottom_table name="right_side" child="right_side" parent="front_alu" origin_xyz="-0.381 -0.304 0" />
+
+    <!--Create table legs-->
+    <xacro:support_profiles name="left_back_leg" orgin_rpy="0 0 0" origin_xyz="0.4 0 0.038"/>
+    <xacro:support_profiles name="right_back_leg" orgin_rpy="0 0 0" origin_xyz="0.4 0 0.038" />
+
+    <xacro:joint_table_support name="left_back_leg" child="left_back_leg" parent="left_side" origin_xyz="-0.385 -0.03 0.0" orgin_rpy="0 0 0" upper="-0.32" lower="-0.52" />
+    <xacro:joint_table_support name="right_back_leg" child="right_back_leg" parent="right_side" origin_xyz="-0.385 0.03 0.0" orgin_rpy="0 0 0" upper="-0.32" lower="-0.52" />
+
+    <!--Motor for table  and push-->
+    <xacro:motor_table name="only_motor" orgin_rpy="0 0 0" origin_xyz="0 0 0.1" />
+    <xacro:push_link name="push_link" origin_xyz="0 0 0.1" />
+
+    <xacro:joint_motor_table name="only_motor" child="only_motor" parent="middle_front_alu" orgin_rpy="0 0 0" origin_xyz="0 0 0" />
+    <xacro:joint_motor_push name="push_link" child="push_link" parent="only_motor" origin_xyz="-0.04 0 0.1" />
+
+    <!--Create table and joint-->
+    <xacro:table name="table_top" origin_xyz="-0.4 -0.3250 0.2" />
+    <xacro:joint_top_table  name="table_top" child="table_top" parent="push_link" origin_xyz="0 0 0.055" />
+
+    <!--Create legs for top table-->
+    <xacro:support_profiles name="right_front_leg" orgin_rpy="0 0 0" origin_xyz="0.4 0 0.038" />
+    <xacro:support_profiles name="left_front_leg" orgin_rpy="0 0 0" origin_xyz="0.4 0 0.038" />
+    
+    <xacro:joint_table_support name="right_front_leg" child="right_front_leg" parent="table_top" origin_xyz="-0.39 -0.31 0.1" orgin_rpy="0 0 0" upper="0.52" lower="0.32" />
+    <xacro:joint_table_support name="left_front_leg" child="left_front_leg" parent="table_top" origin_xyz="-0.39 0.31 0.1" orgin_rpy="0 0 0" upper="0.52" lower="0.32" />
+
+    <!--Create wheels-->
+    <xacro:wheels_table name="left_to_bottom_wheel" />
+    <xacro:wheels_table name="right_to_bottom_wheel" />
+    <xacro:wheels_table name="left_to_top_wheel" />
+    <xacro:wheels_table name="right_to_top_wheel" />
+
+
+    <xacro:joint_table_wheels name="left_to_bottom_wheel" child="left_to_bottom_wheel" parent="left_back_leg" origin_xyz="0.8 0 0.04" />
+    <xacro:joint_table_wheels name="right_to_bottom_wheel" child="right_to_bottom_wheel" parent="right_back_leg" origin_xyz="0.8 0 0.04" />
+    <xacro:joint_table_wheels name="left_to_top_wheel" child="left_to_top_wheel" parent="left_front_leg" origin_xyz="0.8 0 0.04" />
+    <xacro:joint_table_wheels name="right_to_top_wheel" child="right_to_top_wheel" parent="right_front_leg" origin_xyz="0.8 0 0.04" />
+
+</robot>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+<xacro:macro name="m_link_mesh" params="name m_xyz m_rpy v_xyz v_rpy meshfile meshscale mass ixx ixy ixz iyy iyz izz material">
+    <link name="${name}">
+    <pose>0 0 0.5 0 0 0</pose>
+      <inertial>
+        <mass value="${mass}" />
+        <origin rpy="${m_rpy}" xyz="${m_xyz}" />
+        <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}" iyy="${iyy}" iyz="${iyz}" izz="${izz}" />
+      </inertial>
+      <visual>
+        <origin rpy="${v_rpy}" xyz="${v_xyz}" />
+        <geometry>
+          <mesh filename="package://at_robot_simulation/meshes/${meshfile}" scale="${meshscale}"/>
+        </geometry>
+        <material name="${material}"/>
+      </visual>
+    </link>
+  </xacro:macro>
+
+
+</robot>

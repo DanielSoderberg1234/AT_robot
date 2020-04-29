@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+    <xacro:macro name="box_inertia" params="m w h d">
+        <inertial>
+        <mass value="${m}"/>
+        <inertia ixx="${m / 12.0 * (d*d + h*h)}" ixy="0.0" ixz="0.0" iyy="${m / 12.0 * (w*w + h*h)}" iyz="0.0" izz="${m / 12.0 * (w*w + d*d)}"/>
+        </inertial>
+    </xacro:macro>
+
+
+    <!--Macro for the side alu profiles-->
+    <xacro:macro name="ultrasound_boxes" params="name theta" >
+        <link name="${name}" >
+
+            <xacro:box_inertia m="0.05" w="0.01" h="0.04" d="0.02" />
+
+            <collision name="${name}">
+              <origin rpy="0 0 ${theta}" xyz="0 0 0"/>
+              <geometry>
+                <box size="0.01 0.04 0.02" />
+              </geometry>
+            </collision>
+
+            <visual name="${name}">
+              <origin rpy="0 0 ${theta-1.57}" xyz="0 0 0"/>
+              <geometry>
+                <!--<box size="0.01 0.04 0.02" />-->
+                <mesh filename="package://at_robot_simulation/meshes/HC-SR04.stl" scale="0.001 0.001 0.001"/>
+              </geometry>
+              <material name="grey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+              </material>
+            </visual>
+        </link>
+
+
+        <gazebo reference="${name}">        
+            <sensor type="ray" name="TeraRanger">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>true</visualize>
+            <update_rate>20</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                    <samples>2</samples>
+                    <resolution>1</resolution> 
+                    <min_angle>${theta-0.13}</min_angle>
+                    <max_angle>${theta+0.13}</max_angle>
+                    </horizontal>
+                    <vertical>
+                    <samples>2</samples>
+                    <resolution>1</resolution> 
+                    <min_angle>-0.13</min_angle>
+                    <max_angle>0.13</max_angle> 
+                    </vertical>
+                </scan>
+                <range>
+                    <min>0.02</min>
+                    <max>4</max>
+                    <resolution>0.02</resolution>
+                </range>
+            </ray>
+            <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+                <gaussianNoise>0.005</gaussianNoise>
+                <alwaysOn>true</alwaysOn>
+                <updateRate>50</updateRate>
+                <topicName>sensor/${name}</topicName>
+                <frameName>${name}</frameName>
+                <radiation>ultrasound</radiation>
+                <fov>0.26</fov>
+            </plugin>
+            </sensor>  
+        </gazebo>
+
+    </xacro:macro>
+
+        <!--Joint to the top table-->
+    <xacro:macro name="joint_ultrasonic" params="name child parent origin_xyz">
+      <joint name="${name}_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis rpy="0 0 0" xyz="0 0 0"/>
+        <limit effort="10000" velocity="1000"/>
+      </joint>
+    </xacro:macro>
+
+</robot>

@@ -1,0 +1,498 @@
+<?xml version="1.0"?>
+
+
+<robot name="robot1" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!--Interial macros-->
+  <xacro:macro name="cylinder_inertia" params="m r h">
+    <inertial>
+      <mass value="${m}"/>
+      <inertia ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0" iyy="${m*(3*r*r+h*h)/12}" iyz = "0" izz="${m*r*r/2}"/> 
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="box_inertia" params="m w h d">
+    <inertial>
+      <mass value="${m}"/>
+      <inertia ixx="${m / 12.0 * (d*d + h*h)}" ixy="0.0" ixz="0.0" iyy="${m / 12.0 * (w*w + h*h)}" iyz="0.0" izz="${m / 12.0 * (w*w + d*d)}"/>
+    </inertial>
+  </xacro:macro>
+
+    <!--Dummy link and joint since base can't have interia-->
+    <link name="base_link" >
+          <pose>0 0 0.3 0 0 0 0</pose>
+            <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <box size="0.001 0.001 0.001"/>
+                </geometry>
+        </visual>
+
+    </link>
+
+    <joint name="dummy_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+        <parent link="base_link" />
+        <child link="top_plate" />
+    </joint>
+
+    <!--Base plate for the drive unit-->
+    <link name="top_plate">
+
+        <xacro:box_inertia m="1.065" w="0.25" h="0.65" d="0.01" />
+
+        <collision name="collision_top_plate">
+            <origin rpy="0 1.57 0" xyz="-0.125 0 0"/>
+            <geometry>
+                <!--<box size="0.25 0.65 0.01"/>-->
+                <mesh filename="package://at_robot_simulation/meshes/Platta.stl" scale="0.001 0.001 0.001" /> 
+            </geometry>
+        </collision>
+ 
+        <visual>
+            <origin rpy="0 1.57 0" xyz="-0.125 0 0"/>
+                <geometry>
+                    <mesh filename="package://at_robot_simulation/meshes/Platta.stl" scale="0.001 0.001 0.001" /> 
+                </geometry>
+            <material name="grey"/>
+        </visual>
+
+    </link>
+
+
+    <!--Macro for the guide cylinders-->
+    <xacro:macro name="guide_cylinders" params="name" >
+        <link name="${name}" >
+
+            <xacro:cylinder_inertia m="1.065" r="0.0125" h="0.25" />
+
+            <collision name="guide_cylinders_${name}">
+              <origin rpy="0 0 0" xyz="0 0 0"/>
+              <geometry>
+                <cylinder length="0.250" radius="0.0125"/>
+              </geometry>
+            </collision>
+
+            <visual name="${name}_visual">
+              <origin rpy="0 0 0" xyz="0 0 0"/>
+              <geometry>
+                <cylinder length="0.250" radius="0.0125"/>
+              </geometry>
+              <material name="grey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+              </material>
+            </visual>
+        </link>
+    </xacro:macro>
+
+    <!--Macro for the middle plates-->
+    <xacro:macro name="middle_plates" params="name number origin_rpy origin_xyz" >
+        <link name="${name}">
+
+            <xacro:box_inertia m="0.376" w="0.180" h="0.25" d="0.01" />
+
+            <collision name="collision_top_plate">
+                <origin rpy="${origin_rpy}" xyz="${origin_xyz}"/>
+                <geometry>
+                    <!--<box size="0.180 0.25 0.01"/>-->
+                    <mesh filename="package://at_robot_simulation/meshes/Engine_plate${number}.stl" scale="0.001 0.001 0.001" /> 
+                </geometry>
+            </collision>
+    
+            <visual>
+                <origin rpy="${origin_rpy}" xyz="${origin_xyz}"/>
+                    <geometry>
+                        <mesh filename="package://at_robot_simulation/meshes/Engine_plate${number}.stl" scale="0.001 0.001 0.001" /> 
+                    </geometry>
+            </visual>
+
+        </link>
+    </xacro:macro>
+
+       <!--Macro for the motor-->
+    <xacro:macro name="motors" params="name number origin_rpy origin_xyz" >
+        <link name="${name}">
+
+            <xacro:box_inertia m="7.5" w="0.110" h="0.184" d="0.110" />
+
+            <collision name="${name}">
+                <origin rpy="${origin_rpy}" xyz="${origin_xyz}"/>
+                <geometry>
+                    <!--<box size="0.110 0.184 0.110"/>-->
+                    <mesh filename="package://at_robot_simulation/meshes/Motor${number}.stl" scale="0.001 0.001 0.001" />  
+                </geometry>
+            </collision>
+    
+            <visual>
+                <origin rpy="${origin_rpy}" xyz="${origin_xyz}"/>
+                    <geometry>
+                        <mesh filename="package://at_robot_simulation/meshes/Motor${number}.stl" scale="0.001 0.001 0.001" />  
+                    </geometry>
+                <material name="grey">
+                    <color rgba="0.7 0.7 0.7 1.0" />
+                </material>
+            </visual>
+
+        </link>
+    </xacro:macro>
+
+        <!--Macro for the driveshafts-->
+    <xacro:macro name="drive_shafts" params="name" >
+        <link name="${name}" >
+
+            <xacro:cylinder_inertia m="0.2" r="0.015" h="0.05" />
+
+            <collision name="wheel_${name}">
+              <origin rpy="1.57 0 0" xyz="0 0 0"/>
+              <geometry>
+                <cylinder length="0.05" radius="0.015"/>
+              </geometry>
+            </collision>
+
+            <visual name="${name}_visual">
+              <origin rpy="1.57 0 0" xyz="0 0 0"/>
+              <geometry>
+                <cylinder length="0.05" radius="0.015"/>
+              </geometry>
+            </visual>
+        </link>
+    </xacro:macro>
+
+        <!--Macro for wheels-->
+    <xacro:macro name="wheels" params="name origin_rpy number" >
+        <link name="${name}" >
+
+            <xacro:cylinder_inertia m="1.25" r="0.075" h="0.04" />
+
+            <collision name="guide_cylinders_${name}">
+              <origin rpy="1.57 0 0" xyz="0 0 0"/>
+              <geometry>
+                <cylinder length="0.04" radius="0.075"/>
+              </geometry>
+            </collision>
+
+            <visual name="${name}_visual">
+              <origin rpy="${origin_rpy}" xyz="0 0 0"/>
+              <geometry>
+                <mesh filename="package://at_robot_simulation/meshes/Hjul${number}.stl" scale="0.001 0.001 0.001" /> 
+              </geometry>
+            </visual>
+        </link>
+    </xacro:macro>
+
+    <!--Macro for the hylsor-->
+    <xacro:macro name="hylsa" params="name number" >
+        <link name="${name}" >
+
+            <xacro:cylinder_inertia m="0.645" r="0.032" h="0.07" />
+
+            <collision name="${name}">
+              <origin rpy="0 1.57 0" xyz="0 0 0"/>
+              <geometry>
+                <mesh filename="package://at_robot_simulation/meshes/Hylsa${number}.stl" scale="0.001 0.001 0.001" />
+              </geometry>
+            </collision>
+
+            <visual name="${name}">
+              <origin rpy="0 1.57 0" xyz="0 0 0"/>
+              <geometry>
+                <mesh filename="package://at_robot_simulation/meshes/Hylsa${number}.stl" scale="0.001 0.001 0.001" /> 
+              </geometry>
+            </visual>
+        </link>
+    </xacro:macro>
+
+        <!--Macro for the guide springss-->
+    <xacro:macro name="springs" params="name" >
+        <link name="${name}" >
+
+            <xacro:cylinder_inertia m="1.065" r="0.015" h="0.25" />
+
+            <collision name="${name}">
+              <origin rpy="0 0 0" xyz="0 0 0"/>
+              <geometry>
+                <cylinder radius="0.015" length="0.125" /> 
+              </geometry>
+            </collision>
+
+            <visual name="${name}">
+              <origin rpy="0 0 0" xyz="0 0 -0.04"/>
+              <geometry>
+                <mesh filename="package://at_robot_simulation/meshes/suspension.dae"  /> 
+                <!--<cylinder radius="0.015" length="0.125" />-->
+              </geometry>
+              <material name="grey">
+                <color rgba="0.7 0.7 0.7 1.0" />
+              </material>
+            </visual>
+        </link>
+    </xacro:macro>
+
+    <!--Macro for the cylinder joints-->
+    <xacro:macro name="joint_guide_cylinder" params="name child origin_xyz">
+      <joint name="top_plate_${name}" type="fixed">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="top_plate"/>
+        <axis xyz="0 0 0" />
+        <limit effort="1000" lower="1000" upper="1000" velocity="0" />
+      </joint>
+    </xacro:macro>
+
+    <!--Macro for all attatchment with middle plate-->
+    <xacro:macro name="joint_middle_plates" params="name number parent child origin_xyz">
+      <joint name="${name}_joint_${number}" type="prismatic">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis xyz="0 0 1" />
+        <limit effort="1000" lower="-0.03" upper="0" velocity="0.2" />
+      </joint>
+    </xacro:macro>
+
+    <!--Macro for all attatchment with middle plate to motor-->
+    <xacro:macro name="joint_motor_plate" params="name parent child origin_xyz">
+      <joint name="${name}_joint_" type="fixed">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis xyz="0 0 0" />
+        <limit effort="1000" lower="1000" upper="1000" velocity="0" />
+      </joint>
+    </xacro:macro>
+
+        <!--Macro for driveshaft rotating joint-->
+    <xacro:macro name="joint_driveshafts" params="name parent child origin_xyz">
+      <joint name="${name}_joint" type="continuous">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis rpy="0 0 0" xyz="0 1 0"/>
+        <limit effort="10000" velocity="1000"/>
+        <joint_properties damping="1.0" friction="1.0"/>
+      </joint>
+      <transmission name="trans_${name}">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${name}_joint">
+          <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor_${name}">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+      </transmission>
+    </xacro:macro>
+
+        <!--Macro attatchment to motor-->
+    <xacro:macro name="joint_driveshaft_wheel" params="name parent child origin_xyz">
+      <joint name="${name}_joint_" type="fixed">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis xyz="0 0 0" />
+        <limit effort="1000" lower="1000" upper="1000" velocity="0" />
+      </joint>
+    </xacro:macro>
+
+    <!--Macro for hylsa attatchment with guide cylinders-->
+    <xacro:macro name="joint_top_hylsa" params="name parent child origin_xyz">
+      <joint name="${name}_joint_" type="fixed">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis xyz="0 0 0" />
+        <limit effort="1000" lower="1000" upper="1000" velocity="0" />
+      </joint>
+    </xacro:macro>
+
+     <!--Macro for hylsa attatchment with middle plates-->
+    <xacro:macro name="joint_bottom_hylsa" params="name parent child origin_xyz">
+      <joint name="${name}_joint_" type="fixed">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="${parent}"/>
+        <axis xyz="0 0 0" />
+        <limit effort="1000" lower="1000" upper="1000" velocity="0" />
+      </joint>
+    </xacro:macro>
+
+
+    <!--Macro for spring attatchment with top plate-->
+    <xacro:macro name="joint_spring" params="name child origin_xyz">
+      <joint name="${name}_joint_" type="fixed">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+        <child link="${child}"/>
+        <parent link="top_plate"/>
+        <axis xyz="0 0 0" />
+        <limit effort="1000" lower="1000" upper="1000" velocity="0" />
+      </joint>
+    </xacro:macro>
+
+    <!--Create cylinder objects-->
+    <xacro:guide_cylinders  name="cyl_top_left"/>
+    <xacro:guide_cylinders  name="cyl_bottom_left"/>
+    <xacro:guide_cylinders  name="cyl_top_right"/>
+    <xacro:guide_cylinders  name="cyl_bottom_right"/>
+
+    <xacro:joint_guide_cylinder name="cyl_top_left" child="cyl_top_left" origin_xyz="0.06 0.25 -0.125" />
+    <xacro:joint_guide_cylinder name="cyl_bottom_left" child="cyl_bottom_left" origin_xyz="-0.06 0.25 -0.125" />
+    <xacro:joint_guide_cylinder name="cyl_bottom_right" child="cyl_bottom_right" origin_xyz="-0.06 -0.25 -0.125" />
+    <xacro:joint_guide_cylinder name="cyl_top_right" child="cyl_top_right" origin_xyz="0.06 -0.25 -0.125" />
+
+   <!--Create middle plates-->
+   <xacro:middle_plates name="left_plate" number="1" origin_rpy="0 0 -1.57" origin_xyz="0 0.11 0"/>
+   <xacro:middle_plates name="right_plate" number="2" origin_rpy="0 0 1.57" origin_xyz="0 -0.11 0"/>
+
+   <xacro:joint_middle_plates name="left_plate" number="1" child="left_plate" parent="cyl_top_left" origin_xyz="-0.06 -0.05 0"/>
+   <xacro:joint_middle_plates name="right_plate" number="1" child="right_plate" parent="cyl_top_right" origin_xyz="-0.06 0.05 0"/>
+
+   <!--Create motor-->
+
+   <xacro:motors name ="left_motor" number="1" origin_xyz="-0.02 0.1 0" origin_rpy="0 0 1.57"/>
+   <xacro:motors name ="right_motor" number="2" origin_xyz="0.02 -0.1 0" origin_rpy="0 0 -1.57"/>
+
+   <xacro:joint_motor_plate name="left_motor" child="left_motor" parent="left_plate" origin_xyz="0 0 -0.055" />
+   <xacro:joint_motor_plate name="right_motor" child="right_motor" parent="right_plate" origin_xyz="0 0 -0.055" />
+
+  <!--Create driveshafts -->
+  <xacro:drive_shafts name="left_shaft" />
+  <xacro:drive_shafts name="right_shaft" />
+
+  <xacro:joint_driveshafts name="left_shaft" child="left_shaft" parent="left_motor" origin_xyz="0 0.117 0" />
+  <xacro:joint_driveshafts name="right_shaft" child="right_shaft" parent="right_motor" origin_xyz="0 -0.117 0" />
+
+  <!--Create wheels-->
+  <xacro:wheels name="left_wheel" number="1" origin_rpy="0 0 1.57"/>
+  <xacro:wheels name="right_wheel" number="2" origin_rpy="0 0 -1.57"/>
+
+  <xacro:joint_driveshaft_wheel name="left_wheel" child="left_wheel" parent="left_shaft" origin_xyz="0 0.03 0" />
+  <xacro:joint_driveshaft_wheel name="right_wheel" child="right_wheel" parent="right_shaft" origin_xyz="0 -0.03 0" />
+
+  <!--Create hylsa for top plate-->
+  <xacro:hylsa name="top_left_hylsa" number="1"/>
+  <xacro:hylsa name="top_right_hylsa" number="2"/>
+  <xacro:hylsa name="bottom_left_hylsa" number="3"/>
+  <xacro:hylsa name="bottom_right_hylsa" number="4"/>
+
+  <xacro:joint_top_hylsa name="top_left_hylsa" child="top_left_hylsa" parent="cyl_top_left" origin_xyz="0 0 0.135" />
+  <xacro:joint_top_hylsa name="top_right_hylsa" child="top_right_hylsa" parent="cyl_top_right" origin_xyz="0 0 0.135" />
+  <xacro:joint_top_hylsa name="bottom_left_hylsa" child="bottom_left_hylsa" parent="cyl_bottom_left" origin_xyz="0 0 0.135" />
+  <xacro:joint_top_hylsa name="bottom_right_hylsa" child="bottom_right_hylsa" parent="cyl_bottom_right" origin_xyz="0 0 0.135" />
+
+  <!--Create hylsa for middle plates-->
+  <xacro:hylsa name="plate_top_left_hylsa" number="5"/>
+  <xacro:hylsa name="plate_bottom_left_hylsa" number="6"/>
+  <xacro:hylsa name="plate_top_right_hylsa" number="7"/>
+  <xacro:hylsa name="plate_bottom_right_hylsa" number="8"/>
+
+  <xacro:joint_bottom_hylsa name="plate_top_left_hylsa" child="plate_top_left_hylsa" parent="left_plate" origin_xyz="0.06 0.05 0.01" />
+  <xacro:joint_bottom_hylsa name="plate_bottom_left_hylsa" child="plate_bottom_left_hylsa" parent="left_plate" origin_xyz="-0.06 0.05 0.01" />
+  <xacro:joint_bottom_hylsa name="plate_top_right_hylsa"  child="plate_top_right_hylsa"  parent="right_plate" origin_xyz="0.06 -0.05 0.01" />
+  <xacro:joint_bottom_hylsa name="plate_bottom_right_hylsa" child="plate_bottom_right_hylsa" parent="right_plate" origin_xyz="-0.06 -0.05 0.01" />
+
+  <!--Create springs-->
+  <xacro:springs name="back_left_spring"  />
+  <xacro:springs name="front_left_spring"  />
+  <xacro:springs name="back_right_spring"  />
+  <xacro:springs name="front_right_spring"  />
+
+  <xacro:joint_spring name="back_left_spring" child="back_left_spring" origin_xyz="-0.06 0.20 -0.0625" />
+  <xacro:joint_spring name="front_left_spring" child="front_left_spring" origin_xyz="0.06 0.20 -0.0625" />
+  <xacro:joint_spring name="back_right_spring" child="back_right_spring" origin_xyz="-0.06 -0.20 -0.0625" />
+  <xacro:joint_spring name="front_right_spring" child="front_right_spring" origin_xyz="0.06 -0.20 -0.0625" />
+
+  <gazebo reference="back_left_spring_joint" >
+    <implicitSpringDampner>true</implicitSpringDampner>
+  </gazebo>
+
+  <gazebo reference="front_left_spring_joint" >
+    <implicitSpringDampner>true</implicitSpringDampner>
+  </gazebo>
+
+  <gazebo reference="back_right_spring_joint" >
+    <implicitSpringDampner>true</implicitSpringDampner>
+  </gazebo>
+
+  <gazebo reference="front_right_spring_joint" >
+    <implicitSpringDampner>true</implicitSpringDampner>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>50</updateRate>
+      <leftJoint>left_shaft_joint</leftJoint>
+      <rightJoint>right_shaft_joint</rightJoint>
+      <wheelSeparation>0.65</wheelSeparation>
+      <wheelDiameter>0.15</wheelDiameter>
+      <torque>40</torque>
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <robotBaseFrame>base_link</robotBaseFrame>
+      <rosDebugLevel>na</rosDebugLevel>
+      <publishWheelTF>false</publishWheelTF>
+      <publishOdomTF>false</publishOdomTF>
+      <publishWheelJointState>false</publishWheelJointState>
+      <wheelAcceleration>false</wheelAcceleration>
+      <wheelTorque>10</wheelTorque>
+      <publishTf>1</publishTf>
+      <odometrySource>world</odometrySource>
+    </plugin>
+  </gazebo>
+
+
+  <!--Include the frame and create a joint between them-->
+  <xacro:include filename="$(find at_robot_simulation)/urdf/m2wr.xacro" />
+
+  <joint name="driveunit_to_frame" type="fixed">
+        <origin rpy="0 0 0" xyz="-0.4 -0.285 -0.15"/>
+        <child link="link_chassis"/>
+        <parent link="top_plate"/>
+        <axis xyz="0 0 0" />
+        <limit effort="1000" lower="1000" upper="1000" velocity="0" />
+  </joint>
+
+  <!--Include table and create a joint between them-->
+  <xacro:include filename="$(find at_robot_simulation)/urdf/table.xacro" />
+
+  <joint name="frame_to_table" type="fixed">
+        <origin rpy="0 0 0" xyz="0.4 0.59 0.37"/>
+        <child link="left_side"/>
+        <parent link="link_chassis"/>
+        <axis xyz="0 0 0" />
+        <limit effort="1000" lower="1000" upper="1000" velocity="0" />
+  </joint>
+
+  <gazebo>
+    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
+    </plugin>
+  </gazebo> 
+
+  <!--Include macrodefinitions for the ultrasonic nodes-->
+  <xacro:include filename="$(find at_robot_simulation)/urdf/ultrasonic.xacro" />
+
+  <!--Ultrasonic boxes-->
+  <xacro:ultrasound_boxes name="ultrasound_front_left" theta="0.8" />
+  <xacro:ultrasound_boxes name="ultrasound_front_left_middle" theta="0" />
+  <xacro:ultrasound_boxes name="ultrasound_front_right_middle" theta="0" />
+  <xacro:ultrasound_boxes name="ultrasound_front_right" theta="-0.8" />
+
+  <xacro:ultrasound_boxes name="ultrasound_back_left" theta="2.3" />
+  <xacro:ultrasound_boxes name="ultrasound_back_left_middle" theta="3.14"/>
+  <xacro:ultrasound_boxes name="ultrasound_back_right_middle" theta="3.14" />
+  <xacro:ultrasound_boxes name="ultrasound_back_right" theta="3.94" />
+
+  <!--Ultrasonic joints-->
+  <xacro:joint_ultrasonic name="ultrasound_front_left" child="ultrasound_front_left" parent="link_box_front" origin_xyz="0.28 0.65 0.3" />
+  <xacro:joint_ultrasonic name="ultrasound_front_left_middle" child="ultrasound_front_left_middle" parent="link_box_front" origin_xyz="0.28 0.45 0.3" />
+  <xacro:joint_ultrasonic name="ultrasound_front_right_middle" child="ultrasound_front_right_middle" parent="link_box_front" origin_xyz="0.28 0.25 0.3" />
+  <xacro:joint_ultrasonic name="ultrasound_front_right" child="ultrasound_front_right" parent="link_box_front" origin_xyz="0.28 0.0 0.3" />
+
+  <xacro:joint_ultrasonic name="ultrasound_back_left" child="ultrasound_back_left" parent="link_box_back" origin_xyz="0 0.65 0.3" />
+  <xacro:joint_ultrasonic name="ultrasound_back_left_middle" child="ultrasound_back_left_middle" parent="link_box_back" origin_xyz="0 0.45 0.3" />
+  <xacro:joint_ultrasonic name="ultrasound_back_right_middle" child="ultrasound_back_right_middle" parent="link_box_back" origin_xyz="0 0.25 0.3" />
+  <xacro:joint_ultrasonic name="ultrasound_back_right" child="ultrasound_back_right" parent="link_box_back" origin_xyz="0 0.0 0.3" />-->
+
+
+</robot>

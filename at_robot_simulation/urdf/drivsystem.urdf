@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.5.1-0-g916b5db  Build Version: 1.5.7152.31018
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="Drivsystem">
+  <link
+    name="top_plate">
+    <inertial>
+      <origin
+        xyz="0.194075560758931 0.291428417507118 1.65124646742687"
+        rpy="0 0 0" />
+      <mass
+        value="0.706932130650939" />
+      <inertia
+        ixx="0.0145762786617443"
+        ixy="4.44749200159936E-09"
+        ixz="8.65954439222348E-06"
+        iyy="0.00244547263360165"
+        iyz="6.13480107855044E-11"
+        izz="0.0167033705255977" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 1.57 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/top_plate.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 1.57 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/top_plate.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="front_right_guide">
+    <inertial>
+      <origin
+        xyz="0.125 3.0349E-08 2.4007E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.12033" />
+      <inertia
+        ixx="9.2328E-06"
+        ixy="3.6502E-10"
+        ixz="2.8897E-10"
+        iyy="0.00063136"
+        iyz="5.9482E-14"
+        izz="0.00063136" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/front_right_guide.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/front_right_guide.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_right_guide_joint"
+    type="fixed">
+    <origin
+      xyz="0.254154391594353 -1.67048687314575 0.0389284231040001"
+      rpy="1.5707963267949 0 1.5748672852674" />
+    <parent
+      link="top_plate" />
+    <child
+      link="front_right_guide" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="back_right_guide">
+    <inertial>
+      <origin
+        xyz="0.125 3.0349E-08 2.4007E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.12033" />
+      <inertia
+        ixx="9.2328E-06"
+        ixy="3.6502E-10"
+        ixz="2.8897E-10"
+        iyy="0.00063136"
+        iyz="5.9482E-14"
+        izz="0.00063136" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/back_right_guide.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/back_right_guide.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="back_right_guide_joint"
+    type="fixed">
+    <origin
+      xyz="0.134155385955153 -1.67097538681312 0.0389284231040001"
+      rpy="1.5707963267949 0 1.5748672852674" />
+    <parent
+      link="top_plate" />
+    <child
+      link="back_right_guide" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="front_right_spring">
+    <inertial>
+      <origin
+        xyz="-2.0946E-07 1.9159E-07 0.038244"
+        rpy="0 0 0" />
+      <mass
+        value="0.030158" />
+      <inertia
+        ixx="1.0346E-05"
+        ixy="-1.1239E-09"
+        ixz="-1.986E-07"
+        iyy="1.0129E-05"
+        iyz="1.1915E-10"
+        izz="4.5965E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/front_right_spring.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/front_right_spring.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_right_spring_joint"
+    type="prismatic">
+    <origin
+      xyz="0.29373 -1.5673 0.078928"
+      rpy="1.5708 0 0.004071" />
+    <parent
+      link="top_plate" />
+    <child
+      link="front_right_spring" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.03"
+      upper="0"
+      effort="250"
+      velocity="0.05" />
+  </joint>
+  <link
+    name="right_engine_plate">
+    <inertial>
+      <origin
+        xyz="0.019924 -0.012339 -0.06"
+        rpy="0 0 0" />
+      <mass
+        value="0.29569" />
+      <inertia
+        ixx="0.0012944"
+        ixy="2.4135E-07"
+        ixz="-4.2064E-11"
+        iyy="0.0009515"
+        iyz="7.1268E-10"
+        izz="0.00050149" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/right_engine_plate.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/right_engine_plate.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="right_engine_plate_joint"
+    type="fixed">
+    <origin
+      xyz="-0.16 -0.04 -0.00600000000029866"
+      rpy="3.14159265358979 1.5707963267949 0" />
+    <parent
+      link="front_right_spring" />
+    <child
+      link="right_engine_plate" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="right_motor">
+    <inertial>
+      <origin
+        xyz="-0.080492 -0.0036054 1.5091E-08"
+        rpy="0 0 0" />
+      <mass
+        value="2.0933" />
+      <inertia
+        ixx="0.0039422"
+        ixy="-8.4475E-05"
+        ixz="2.4844E-10"
+        iyy="0.0039478"
+        iyz="3.6796E-09"
+        izz="0.003775" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/right_motor.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.82353 0.82353 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/right_motor.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="right_motor_joint"
+    type="fixed">
+    <origin
+      xyz="0.0849999999994182 -0.037499999999 -0.0599999999995945"
+      rpy="3.14159265358978 0 1.5707963267949" />
+    <parent
+      link="right_engine_plate" />
+    <child
+      link="right_motor" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="right_wheel">
+    <inertial>
+      <origin
+        xyz="0.065937044563068 -9.15933995315754E-16 -4.62426189122844E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.480781626307374" />
+      <inertia
+        ixx="0.00129312927242448"
+        ixy="4.80694930380888E-18"
+        ixz="-2.85997109298315E-09"
+        iyy="0.000692378613942212"
+        iyz="1.50682926151804E-17"
+        izz="0.000692666548700036" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/right_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.823529411764706 0.823529411764706 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/right_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="right_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0.015 0.02 0"
+      rpy="-1.5708 0 0" />
+    <parent
+      link="right_motor" />
+    <child
+      link="right_wheel" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      effort="40"
+      velocity="27" />
+  </joint>
+  <link
+    name="back_right_spring">
+    <inertial>
+      <origin
+        xyz="-2.0946E-07 1.9159E-07 0.038244"
+        rpy="0 0 0" />
+      <mass
+        value="0.030158" />
+      <inertia
+        ixx="1.0346E-05"
+        ixy="-1.1239E-09"
+        ixz="-1.986E-07"
+        iyy="1.0129E-05"
+        iyz="1.1915E-10"
+        izz="4.5965E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/back_right_spring.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/back_right_spring.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="back_right_spring_joint"
+    type="fixed">
+    <origin
+      xyz="0.0937364098442624 -1.56813907819526 0.0789284231040001"
+      rpy="1.5707963267949 0 0.0040709584725069" />
+    <parent
+      link="top_plate" />
+    <child
+      link="back_right_spring" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="front_left_guide">
+    <inertial>
+      <origin
+        xyz="0.125 3.0349E-08 2.4007E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.12033" />
+      <inertia
+        ixx="9.2328E-06"
+        ixy="3.6502E-10"
+        ixz="2.8897E-10"
+        iyy="0.00063136"
+        iyz="5.9482E-14"
+        izz="0.00063136" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/front_left_guide.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/front_left_guide.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_left_guide_joint"
+    type="fixed">
+    <origin
+      xyz="0.254154391594353 -1.67048687314575 0.543928423104"
+      rpy="1.5707963267949 0 1.5748672852674" />
+    <parent
+      link="top_plate" />
+    <child
+      link="front_left_guide" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="back_left_guide">
+    <inertial>
+      <origin
+        xyz="0.125 3.0349E-08 2.4007E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.12033" />
+      <inertia
+        ixx="9.2328E-06"
+        ixy="3.6502E-10"
+        ixz="2.8897E-10"
+        iyy="0.00063136"
+        iyz="5.9482E-14"
+        izz="0.00063136" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/back_left_guide.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/back_left_guide.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="back_left_guide_joint"
+    type="fixed">
+    <origin
+      xyz="0.134155385955153 -1.67097538681312 0.543928423104"
+      rpy="1.5707963267949 0 1.5748672852674" />
+    <parent
+      link="top_plate" />
+    <child
+      link="back_left_guide" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="front_left_spring">
+    <inertial>
+      <origin
+        xyz="-2.3902E-07 1.2574E-07 0.038244"
+        rpy="0 0 0" />
+      <mass
+        value="0.030158" />
+      <inertia
+        ixx="1.0346E-05"
+        ixy="-1.1354E-09"
+        ixz="-1.9858E-07"
+        iyy="1.0129E-05"
+        iyz="1.298E-10"
+        izz="4.5965E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/front_left_spring.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/front_left_spring.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_left_spring_joint"
+    type="prismatic">
+    <origin
+      xyz="0.29405 -1.6453 0.50393"
+      rpy="-1.5708 0 0.004071" />
+    <parent
+      link="top_plate" />
+    <child
+      link="front_left_spring" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0.3"
+      upper="0"
+      effort="250"
+      velocity="0.05" />
+  </joint>
+  <link
+    name="left_engine_plate">
+    <inertial>
+      <origin
+        xyz="0.077339 3.7152E-09 -0.0079242"
+        rpy="0 0 0" />
+      <mass
+        value="0.29569" />
+      <inertia
+        ixx="0.0009515"
+        ixy="-7.1268E-10"
+        ixz="2.4142E-07"
+        iyy="0.00050149"
+        iyz="-4.2064E-11"
+        izz="0.0012944" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/left_engine_plate.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.82353 0.82353 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/left_engine_plate.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="left_engine_plate_joint"
+    type="fixed">
+    <origin
+      xyz="-0.1 -0.105 0.096"
+      rpy="3.1416 0 1.5708" />
+    <parent
+      link="front_left_spring" />
+    <child
+      link="left_engine_plate" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="left_engine">
+    <inertial>
+      <origin
+        xyz="-0.0804923173968037 -0.00360539464821152 1.46983530902034E-08"
+        rpy="0 0 0" />
+      <mass
+        value="2.09325025560836" />
+      <inertia
+        ixx="0.00394222086330848"
+        ixy="-8.44750171144979E-05"
+        ixz="2.62282095344831E-10"
+        iyy="0.00394783314952355"
+        iyz="3.70968413677596E-09"
+        izz="0.00377500350750035" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/left_engine.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.823529411764706 0.823529411764706 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/left_engine.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="left_engine_joint"
+    type="fixed">
+    <origin
+      xyz="0.102500000001 0 -0.0729999999980886"
+      rpy="-1.57079632679489 0 3.14159265358979" />
+    <parent
+      link="left_engine_plate" />
+    <child
+      link="left_engine" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="left_wheel">
+    <inertial>
+      <origin
+        xyz="0.065937 -9.4369E-16 -4.6243E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.48078" />
+      <inertia
+        ixx="0.0012931"
+        ixy="4.8014E-18"
+        ixz="-2.86E-09"
+        iyy="0.00069238"
+        iyz="1.4945E-17"
+        izz="0.00069267" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/left_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.82353 0.82353 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/left_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="left_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0.015 0.02 0"
+      rpy="-1.5708 0 0" />
+    <parent
+      link="left_engine" />
+    <child
+      link="left_wheel" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      effort="40"
+      velocity="27" />
+  </joint>
+  <link
+    name="back_left_spring">
+    <inertial>
+      <origin
+        xyz="-2.3902E-07 1.2574E-07 0.038244"
+        rpy="0 0 0" />
+      <mass
+        value="0.030158" />
+      <inertia
+        ixx="1.0346E-05"
+        ixy="-1.1354E-09"
+        ixz="-1.9858E-07"
+        iyy="1.0129E-05"
+        iyz="1.298E-10"
+        izz="4.5965E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/back_left_spring.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://at_robot_simulation/meshes/back_left_spring.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="back_left_spring_joint"
+    type="fixed">
+    <origin
+      xyz="0.093736 -1.5681 0.50393"
+      rpy="-1.5708 0 -3.1375" />
+    <parent
+      link="top_plate" />
+    <child
+      link="back_left_spring" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+</robot>
