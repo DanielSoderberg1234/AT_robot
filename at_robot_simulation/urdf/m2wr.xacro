@@ -16,6 +16,10 @@
               meshscale="1 1 1" 
               material="orange"/>
 
+<gazebo reference="link_chassis">
+  <material>Gazebo/Grey</material>
+</gazebo>
+
 
 <xacro:link_collision_box name="link_box_back" 
                           rpy="0 0 0" 
@@ -147,5 +151,30 @@ _________________________________________________________________________
                  child="link_collision_wheel_4" 
                  parent="link_wheel_4" 
                  origin_xyz="0.044199 0.00046 -0.054651" /> 
+
+<gazebo reference="link_box_back">
+  <material>Gazebo/GreyTransparent</material>
+</gazebo>
+<gazebo reference="link_box_front">
+  <material>Gazebo/GreyTransparent</material>
+</gazebo>
+<gazebo reference="link_box_middle">
+  <material>Gazebo/GreyTransparent</material>
+</gazebo>
+
+<gazebo reference="link_wheel_1">
+  <material>Gazebo/Orange</material>
+</gazebo>
+<gazebo reference="link_wheel_2">
+  <material>Gazebo/Orange</material>
+</gazebo>
+<gazebo reference="link_wheel_3">
+  <material>Gazebo/Orange</material>
+</gazebo>
+<gazebo reference="link_wheel_4">
+  <material>Gazebo/Orange</material>
+</gazebo>
+
+
 
 </robot>

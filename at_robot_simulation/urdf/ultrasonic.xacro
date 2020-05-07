@@ -12,7 +12,7 @@
 
 
     <!--Macro for the side alu profiles-->
-    <xacro:macro name="ultrasound_boxes" params="name theta" >
+    <xacro:macro name="ultrasound_boxes" params="name theta topic" >
         <link name="${name}" >
 
             <xacro:box_inertia m="0.05" w="0.01" h="0.04" d="0.02" />
@@ -67,7 +67,7 @@
                 <gaussianNoise>0.005</gaussianNoise>
                 <alwaysOn>true</alwaysOn>
                 <updateRate>50</updateRate>
-                <topicName>sensor/${name}</topicName>
+                <topicName>sensor/${topic}</topicName>
                 <frameName>${name}</frameName>
                 <radiation>ultrasound</radiation>
                 <fov>0.26</fov>

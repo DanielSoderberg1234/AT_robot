@@ -11,6 +11,13 @@
     </inertial>
   </xacro:macro>
 
+  <xacro:macro name="cylinder_y_inertia" params="m r h">
+    <inertial>
+      <mass value="${m}"/>
+      <inertia ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0" iyy= "${m*r*r/2}" iyz = "0" izz="${m*(3*r*r+h*h)/12}"/> 
+    </inertial>
+  </xacro:macro>
+
   <xacro:macro name="box_inertia" params="m w h d">
     <inertial>
       <mass value="${m}"/>
@@ -39,7 +46,7 @@
     <!--Base plate for the drive unit-->
     <link name="top_plate">
 
-        <xacro:box_inertia m="1.065" w="0.25" h="0.65" d="0.01" />
+        <xacro:box_inertia m="1.065" w="0.25" h="0.01" d="0.65" />
 
         <collision name="collision_top_plate">
             <origin rpy="0 1.57 0" xyz="-0.125 0 0"/>
@@ -58,6 +65,10 @@
         </visual>
 
     </link>
+
+    <gazebo reference="top_plate">
+            <material>Gazebo/Grey</material>
+    </gazebo>
 
 
     <!--Macro for the guide cylinders-->
@@ -83,13 +94,17 @@
               </material>
             </visual>
         </link>
+
+        <gazebo reference="${name}">
+            <material>Gazebo/Grey</material>
+        </gazebo>
     </xacro:macro>
 
     <!--Macro for the middle plates-->
     <xacro:macro name="middle_plates" params="name number origin_rpy origin_xyz" >
         <link name="${name}">
 
-            <xacro:box_inertia m="0.376" w="0.180" h="0.25" d="0.01" />
+            <xacro:box_inertia m="0.376" w="0.180" h="0.01" d="0.25" />
 
             <collision name="collision_top_plate">
                 <origin rpy="${origin_rpy}" xyz="${origin_xyz}"/>
@@ -107,13 +122,17 @@
             </visual>
 
         </link>
+
+        <gazebo reference="${name}">
+            <material>Gazebo/Grey</material>
+        </gazebo>
     </xacro:macro>
 
        <!--Macro for the motor-->
     <xacro:macro name="motors" params="name number origin_rpy origin_xyz" >
         <link name="${name}">
 
-            <xacro:box_inertia m="7.5" w="0.110" h="0.184" d="0.110" />
+            <xacro:box_inertia m="7.5" w="0.110" h="0.110" d="0.184" />
 
             <collision name="${name}">
                 <origin rpy="${origin_rpy}" xyz="${origin_xyz}"/>
@@ -134,13 +153,16 @@
             </visual>
 
         </link>
+        <gazebo reference="${name}">
+            <material>Gazebo/Grey</material>
+        </gazebo>
     </xacro:macro>
 
         <!--Macro for the driveshafts-->
     <xacro:macro name="drive_shafts" params="name" >
         <link name="${name}" >
 
-            <xacro:cylinder_inertia m="0.2" r="0.015" h="0.05" />
+            <xacro:cylinder_y_inertia m="0.2" r="0.015" h="0.05" />
 
             <collision name="wheel_${name}">
               <origin rpy="1.57 0 0" xyz="0 0 0"/>
@@ -156,13 +178,17 @@
               </geometry>
             </visual>
         </link>
+
+        <gazebo reference="${name}">
+            <material>Gazebo/Grey</material>
+        </gazebo>
     </xacro:macro>
 
         <!--Macro for wheels-->
     <xacro:macro name="wheels" params="name origin_rpy number" >
         <link name="${name}" >
 
-            <xacro:cylinder_inertia m="1.25" r="0.075" h="0.04" />
+            <xacro:cylinder_y_inertia m="1.25" r="0.075" h="0.04" />
 
             <collision name="guide_cylinders_${name}">
               <origin rpy="1.57 0 0" xyz="0 0 0"/>
@@ -178,6 +204,12 @@
               </geometry>
             </visual>
         </link>
+
+        <gazebo reference="${name}">
+            <material>Gazebo/Orange</material>
+            <mu1>0.8</mu1>
+            <mu2>0.8</mu2>
+        </gazebo>
     </xacro:macro>
 
     <!--Macro for the hylsor-->
@@ -200,6 +232,10 @@
               </geometry>
             </visual>
         </link>
+        <gazebo reference="${name}">
+            <material>Gazebo/Grey</material>
+        </gazebo>
+
     </xacro:macro>
 
         <!--Macro for the guide springss-->
@@ -226,6 +262,10 @@
               </material>
             </visual>
         </link>
+
+        <gazebo reference="${name}">
+            <material>Gazebo/Blue</material>
+        </gazebo>
     </xacro:macro>
 
     <!--Macro for the cylinder joints-->
@@ -435,11 +475,11 @@
       <publishOdomTF>false</publishOdomTF>
       <publishWheelJointState>false</publishWheelJointState>
       <wheelAcceleration>false</wheelAcceleration>
-      <wheelTorque>10</wheelTorque>
+      <wheelTorque>20</wheelTorque>
       <publishTf>1</publishTf>
       <odometrySource>world</odometrySource>
     </plugin>
-  </gazebo>
+  </gazebo>-->
 
 
   <!--Include the frame and create a joint between them-->
@@ -453,7 +493,7 @@
         <limit effort="1000" lower="1000" upper="1000" velocity="0" />
   </joint>
 
-  <!--Include table and create a joint between them-->
+
   <xacro:include filename="$(find at_robot_simulation)/urdf/table.xacro" />
 
   <joint name="frame_to_table" type="fixed">
@@ -469,21 +509,21 @@
     </plugin>
   </gazebo> 
 
-  <!--Include macrodefinitions for the ultrasonic nodes-->
+ 
   <xacro:include filename="$(find at_robot_simulation)/urdf/ultrasonic.xacro" />
 
-  <!--Ultrasonic boxes-->
-  <xacro:ultrasound_boxes name="ultrasound_front_left" theta="0.8" />
-  <xacro:ultrasound_boxes name="ultrasound_front_left_middle" theta="0" />
-  <xacro:ultrasound_boxes name="ultrasound_front_right_middle" theta="0" />
-  <xacro:ultrasound_boxes name="ultrasound_front_right" theta="-0.8" />
 
-  <xacro:ultrasound_boxes name="ultrasound_back_left" theta="2.3" />
-  <xacro:ultrasound_boxes name="ultrasound_back_left_middle" theta="3.14"/>
-  <xacro:ultrasound_boxes name="ultrasound_back_right_middle" theta="3.14" />
-  <xacro:ultrasound_boxes name="ultrasound_back_right" theta="3.94" />
+  <xacro:ultrasound_boxes name="ultrasound_front_left" theta="0.8" topic="front" />
+  <xacro:ultrasound_boxes name="ultrasound_front_left_middle" theta="0" topic="front"/>
+  <xacro:ultrasound_boxes name="ultrasound_front_right_middle" theta="0" topic="front"/>
+  <xacro:ultrasound_boxes name="ultrasound_front_right" theta="-0.8" topic="front"/>
 
-  <!--Ultrasonic joints-->
+  <xacro:ultrasound_boxes name="ultrasound_back_left" theta="2.3" topic="back"/>
+  <xacro:ultrasound_boxes name="ultrasound_back_left_middle" theta="3.14" topic="back"/>
+  <xacro:ultrasound_boxes name="ultrasound_back_right_middle" theta="3.14" topic="back"/>
+  <xacro:ultrasound_boxes name="ultrasound_back_right" theta="3.94" topic="back"/>
+
+
   <xacro:joint_ultrasonic name="ultrasound_front_left" child="ultrasound_front_left" parent="link_box_front" origin_xyz="0.28 0.65 0.3" />
   <xacro:joint_ultrasonic name="ultrasound_front_left_middle" child="ultrasound_front_left_middle" parent="link_box_front" origin_xyz="0.28 0.45 0.3" />
   <xacro:joint_ultrasonic name="ultrasound_front_right_middle" child="ultrasound_front_right_middle" parent="link_box_front" origin_xyz="0.28 0.25 0.3" />
@@ -492,7 +532,7 @@
   <xacro:joint_ultrasonic name="ultrasound_back_left" child="ultrasound_back_left" parent="link_box_back" origin_xyz="0 0.65 0.3" />
   <xacro:joint_ultrasonic name="ultrasound_back_left_middle" child="ultrasound_back_left_middle" parent="link_box_back" origin_xyz="0 0.45 0.3" />
   <xacro:joint_ultrasonic name="ultrasound_back_right_middle" child="ultrasound_back_right_middle" parent="link_box_back" origin_xyz="0 0.25 0.3" />
-  <xacro:joint_ultrasonic name="ultrasound_back_right" child="ultrasound_back_right" parent="link_box_back" origin_xyz="0 0.0 0.3" />-->
-
+  <xacro:joint_ultrasonic name="ultrasound_back_right" child="ultrasound_back_right" parent="link_box_back" origin_xyz="0 0.0 0.3" />
+ 
 
 </robot>

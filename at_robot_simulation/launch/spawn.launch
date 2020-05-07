@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
+    <arg name="world" default="$(find at_robot_simulation)/worlds/empty_world.world" />
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(arg world)" />
+    </include>
+
+    <!--<node name="main_controller" pkg="at_robot_simulation" type="main.py" />-->
+
    <group ns="/robot1">
         <param name="/robot1/robot_description" command="$(find xacro)/xacro '$(find at_robot_simulation)/urdf/driveunit.xacro'" />
 
-        <arg name="x" default="10.23"/>
-        <arg name="y" default="22.0"/>
+        <arg name="x" default="4.0"/>
+        <arg name="y" default="2.0"/>
         <arg name="z" default="0.0"/>
+        <arg name="yaw" default="1.57" />
 
         <node name="robot1_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
-            args="-urdf -param robot_description -model robot1 -x $(arg x) -y $(arg y) -z $(arg z)" />
-
-        <node name="rviz" pkg="rviz" type="rviz" />
-
+            args="-urdf -param robot_description -model robot1 -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw)" />
 
         <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
-
-        <node name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
 
         <rosparam command="load" file="$(find at_robot_simulation)/config/driveunit_controller.yaml"  />
 

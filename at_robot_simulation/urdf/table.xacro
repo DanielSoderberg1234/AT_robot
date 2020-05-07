@@ -16,6 +16,22 @@
     </inertial>
   </xacro:macro>
 
+  <xacro:macro name="support_legs_inertia" params="m w h d xyz rpy">
+    <inertial>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+      <mass value="${m}"/>
+      <inertia ixx="${m / 12.0 * (d*d + h*h)}" ixy="0.0" ixz="0.0" iyy="${m / 12.0 * (w*w + h*h)}" iyz="0.0" izz="${m / 12.0 * (w*w + d*d)}"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="table_inertia" params="m w h d">
+    <inertial>
+      <origin xyz="0 0 0.2" rpy="1.57 0 0"/>
+      <mass value="${m}"/>
+      <inertia ixx="${m / 12.0 * (d*d + h*h)}" ixy="0.0" ixz="0.0" iyy="${m / 12.0 * (w*w + h*h)}" iyz="0.0" izz="${m / 12.0 * (w*w + d*d)}"/>
+    </inertial>
+  </xacro:macro>
+
 
     <!--Macro for the side alu profiles-->
     <xacro:macro name="bottom_sides" params="name" >
@@ -41,6 +57,10 @@
               </material>
             </visual>
         </link>
+
+        <gazebo reference="${name}">
+            <material>Gazebo/Grey</material>
+        </gazebo>
     </xacro:macro>
 
 
@@ -68,13 +88,17 @@
               </material>
             </visual>
         </link>
+
+        <gazebo reference="${name}">
+            <material>Gazebo/Grey</material>
+        </gazebo>
     </xacro:macro>
 
     <!--Macro for the supports to the table-->
-    <xacro:macro name="support_profiles" params="name orgin_rpy origin_xyz" >
+    <xacro:macro name="support_profiles" params="name orgin_rpy origin_xyz xyz rpy" >
         <link name="${name}" >
 
-            <xacro:box_inertia m="0.212" w="0.810" h="0.02" d="0.030" />
+            <xacro:support_legs_inertia m="0.212" w="0.810" h="0.02" d="0.030" xyz="${xyz}" rpy="${rpy}"/>
 
             <collision name="${name}">
               <origin rpy="${orgin_rpy}" xyz="${origin_xyz}"/>
@@ -95,6 +119,10 @@
               </material>
             </visual>
         </link>
+
+        <gazebo reference="${name}">
+            <material>Gazebo/Grey</material>
+        </gazebo>
     </xacro:macro>
 
 
@@ -121,6 +149,10 @@
               </material>
             </visual>
         </link>
+
+        <gazebo reference="${name}">
+            <material>Gazebo/Black</material>
+        </gazebo>
     </xacro:macro>
 
     <!--Macro push link-->
@@ -146,6 +178,9 @@
               </material>
             </visual>
         </link>
+        <gazebo reference="${name}">
+            <material>Gazebo/Grey</material>
+        </gazebo>
     </xacro:macro>
 
 
@@ -153,7 +188,7 @@
     <xacro:macro name="table" params="name origin_xyz" >
         <link name="${name}" >
 
-            <xacro:box_inertia m="1.3" w="0.8" h="0.65" d="0.042" />
+            <xacro:table_inertia m="1.3" w="0.8" h="0.65" d="0.042" />
 
             <collision name="${name}">
               <origin rpy="-1.57 0 -1.57" xyz="${origin_xyz}"/>
@@ -172,6 +207,9 @@
               </material>
             </visual>
         </link>
+        <gazebo reference="${name}">
+            <material>Gazebo/Grey</material>
+        </gazebo>
     </xacro:macro>
 
         <!--Macro wheel link-->
@@ -197,6 +235,10 @@
               </material>
             </visual>
         </link>
+
+        <gazebo reference="${name}">
+            <material>Gazebo/Grey</material>
+        </gazebo>
     </xacro:macro>
 
     <!--Joint to tie the bottom frame together-->
@@ -309,8 +351,8 @@
     <xacro:joint_bottom_table name="right_side" child="right_side" parent="front_alu" origin_xyz="-0.381 -0.304 0" />
 
     <!--Create table legs-->
-    <xacro:support_profiles name="left_back_leg" orgin_rpy="0 0 0" origin_xyz="0.4 0 0.038"/>
-    <xacro:support_profiles name="right_back_leg" orgin_rpy="0 0 0" origin_xyz="0.4 0 0.038" />
+    <xacro:support_profiles name="left_back_leg" orgin_rpy="0 0 0" origin_xyz="0.4 0 0.038" xyz="0.4 0 0" rpy="0 0 0"/>
+    <xacro:support_profiles name="right_back_leg" orgin_rpy="0 0 0" origin_xyz="0.4 0 0.038" xyz="0.4 0 0" rpy="0 0 0"/>
 
     <xacro:joint_table_support name="left_back_leg" child="left_back_leg" parent="left_side" origin_xyz="-0.385 -0.03 0.0" orgin_rpy="0 0 0" upper="-0.32" lower="-0.52" />
     <xacro:joint_table_support name="right_back_leg" child="right_back_leg" parent="right_side" origin_xyz="-0.385 0.03 0.0" orgin_rpy="0 0 0" upper="-0.32" lower="-0.52" />
@@ -327,8 +369,8 @@
     <xacro:joint_top_table  name="table_top" child="table_top" parent="push_link" origin_xyz="0 0 0.055" />
 
     <!--Create legs for top table-->
-    <xacro:support_profiles name="right_front_leg" orgin_rpy="0 0 0" origin_xyz="0.4 0 0.038" />
-    <xacro:support_profiles name="left_front_leg" orgin_rpy="0 0 0" origin_xyz="0.4 0 0.038" />
+    <xacro:support_profiles name="right_front_leg" orgin_rpy="0 0 0" origin_xyz="0.4 0 0.038" xyz="0.4 0 0" rpy="0 0 0"/>
+    <xacro:support_profiles name="left_front_leg" orgin_rpy="0 0 0" origin_xyz="0.4 0 0.038" xyz="0.4 0 0" rpy="0 0 0"/>
     
     <xacro:joint_table_support name="right_front_leg" child="right_front_leg" parent="table_top" origin_xyz="-0.39 -0.31 0.1" orgin_rpy="0 0 0" upper="0.52" lower="0.32" />
     <xacro:joint_table_support name="left_front_leg" child="left_front_leg" parent="table_top" origin_xyz="-0.39 0.31 0.1" orgin_rpy="0 0 0" upper="0.52" lower="0.32" />

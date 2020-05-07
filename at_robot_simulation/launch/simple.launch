@@ -5,14 +5,14 @@
     <include file="$(find gazebo_ros)/launch/empty_world.launch" >
     </include>
 
-	<arg name="model" default="$(find at_robot_simulation)/urdf/ultrasonic.xacro"/>
+	<arg name="model" default="$(find at_robot_simulation)/urdf/table.xacro"/>
 
     <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
 
 
     <arg name="x" default="0.0"/>
     <arg name="y" default="0.0"/>
-    <arg name="z" default="0.0"/>
+    <arg name="z" default="1.0"/>
     <arg name="yaw" default="0.0"/>
 
 
@@ -21,8 +21,8 @@
 
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
-    <node name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+    <!--<node name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
 
-	<node name="rviz" pkg="rviz" type="rviz" />
+	<node name="rviz" pkg="rviz" type="rviz" />-->
 	
 </launch>
