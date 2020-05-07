@@ -1,0 +1,19 @@
+<?xml version='1.0'?>
+<sdf version ='1.4'>
+  <model name ='ramp'>
+    <static>true</static>
+    <link name ='link'>
+
+      <collision name ='collision'>
+        <geometry>
+          <box><size>3 1 0.01</size></box>
+        </geometry>
+      </collision>
+      <visual name ='visual'>
+        <geometry>
+          <box><size>3 1 0.01</size></box>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
