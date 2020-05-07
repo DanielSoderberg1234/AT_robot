@@ -1,0 +1,5 @@
+# The requesti is a distance that the table should be moved
+float64 distance
+---
+# The response is the offset in position, as it's not a perfect system
+float64 offset
