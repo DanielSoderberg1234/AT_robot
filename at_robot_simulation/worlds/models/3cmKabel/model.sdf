@@ -7,7 +7,7 @@
       <collision name ='collision'>
         <geometry>
             <cylinder>
-              <radius>.02</radius>
+              <radius>.015</radius>
               <length>4</length>
             </cylinder>
         </geometry>
@@ -15,7 +15,7 @@
       <visual name ='visual'>
           <geometry>
             <cylinder>
-              <radius>.02</radius>
+              <radius>.015</radius>
               <length>4</length>
             </cylinder>
           </geometry>

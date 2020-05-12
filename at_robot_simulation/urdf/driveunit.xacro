@@ -165,14 +165,14 @@
             <xacro:cylinder_y_inertia m="0.2" r="0.015" h="0.05" />
 
             <collision name="wheel_${name}">
-              <origin rpy="1.57 0 0" xyz="0 0 0"/>
+              <origin rpy="1.57 0 0" xyz="0 0 -0.005"/>
               <geometry>
                 <cylinder length="0.05" radius="0.015"/>
               </geometry>
             </collision>
 
             <visual name="${name}_visual">
-              <origin rpy="1.57 0 0" xyz="0 0 0"/>
+              <origin rpy="1.57 0 0" xyz="0 0 -0.005"/>
               <geometry>
                 <cylinder length="0.05" radius="0.015"/>
               </geometry>
@@ -287,6 +287,7 @@
         <parent link="${parent}"/>
         <axis xyz="0 0 1" />
         <limit effort="1000" lower="-0.03" upper="0" velocity="0.2" />
+        <dynamics damping="0.8" />
       </joint>
     </xacro:macro>
 
@@ -386,10 +387,24 @@
    <xacro:joint_middle_plates name="left_plate" number="1" child="left_plate" parent="cyl_top_left" origin_xyz="-0.06 -0.05 0"/>
    <xacro:joint_middle_plates name="right_plate" number="1" child="right_plate" parent="cyl_top_right" origin_xyz="-0.06 0.05 0"/>
 
+   <gazebo reference="left_plate_joint" >
+      <implicitSpringDampner>true</implicitSpringDampner>
+      <springStifness>true</springStifness>
+      <provideFeedback>true</provideFeedback>
+      <springReference>0.0</springReference>
+   </gazebo>
+
+   <gazebo reference="right_plate_joint" >
+      <implicitSpringDampner>true</implicitSpringDampner>
+      <springStifness>true</springStifness>
+      <provideFeedback>true</provideFeedback>
+      <springReference>0.0</springReference>
+   </gazebo>
+
    <!--Create motor-->
 
-   <xacro:motors name ="left_motor" number="1" origin_xyz="-0.02 0.1 0" origin_rpy="0 0 1.57"/>
-   <xacro:motors name ="right_motor" number="2" origin_xyz="0.02 -0.1 0" origin_rpy="0 0 -1.57"/>
+   <xacro:motors name ="left_motor" number="1" origin_xyz="-0.02 0.05 0" origin_rpy="0 0 1.57"/>
+   <xacro:motors name ="right_motor" number="2" origin_xyz="0.02 -0.05 0" origin_rpy="0 0 -1.57"/>
 
    <xacro:joint_motor_plate name="left_motor" child="left_motor" parent="left_plate" origin_xyz="0 0 -0.055" />
    <xacro:joint_motor_plate name="right_motor" child="right_motor" parent="right_plate" origin_xyz="0 0 -0.055" />
@@ -398,15 +413,15 @@
   <xacro:drive_shafts name="left_shaft" />
   <xacro:drive_shafts name="right_shaft" />
 
-  <xacro:joint_driveshafts name="left_shaft" child="left_shaft" parent="left_motor" origin_xyz="0 0.117 0" />
-  <xacro:joint_driveshafts name="right_shaft" child="right_shaft" parent="right_motor" origin_xyz="0 -0.117 0" />
+  <xacro:joint_driveshafts name="left_shaft" child="left_shaft" parent="left_motor" origin_xyz="0.01 0.1 0" />
+  <xacro:joint_driveshafts name="right_shaft" child="right_shaft" parent="right_motor" origin_xyz="0.01 -0.1 0" />
 
   <!--Create wheels-->
   <xacro:wheels name="left_wheel" number="1" origin_rpy="0 0 1.57"/>
   <xacro:wheels name="right_wheel" number="2" origin_rpy="0 0 -1.57"/>
 
-  <xacro:joint_driveshaft_wheel name="left_wheel" child="left_wheel" parent="left_shaft" origin_xyz="0 0.03 0" />
-  <xacro:joint_driveshaft_wheel name="right_wheel" child="right_wheel" parent="right_shaft" origin_xyz="0 -0.03 0" />
+  <xacro:joint_driveshaft_wheel name="left_wheel" child="left_wheel" parent="left_shaft" origin_xyz="0 0.03 0.0" />
+  <xacro:joint_driveshaft_wheel name="right_wheel" child="right_wheel" parent="right_shaft" origin_xyz="0 -0.03 0.0" />
 
   <!--Create hylsa for top plate-->
   <xacro:hylsa name="top_left_hylsa" number="1"/>
@@ -465,7 +480,7 @@
       <rightJoint>right_shaft_joint</rightJoint>
       <wheelSeparation>0.65</wheelSeparation>
       <wheelDiameter>0.15</wheelDiameter>
-      <torque>40</torque>
+      <torque>120</torque>
       <commandTopic>cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
@@ -475,7 +490,7 @@
       <publishOdomTF>false</publishOdomTF>
       <publishWheelJointState>false</publishWheelJointState>
       <wheelAcceleration>false</wheelAcceleration>
-      <wheelTorque>20</wheelTorque>
+      <wheelTorque>60</wheelTorque>
       <publishTf>1</publishTf>
       <odometrySource>world</odometrySource>
     </plugin>
@@ -534,5 +549,7 @@
   <xacro:joint_ultrasonic name="ultrasound_back_right_middle" child="ultrasound_back_right_middle" parent="link_box_back" origin_xyz="0 0.25 0.3" />
   <xacro:joint_ultrasonic name="ultrasound_back_right" child="ultrasound_back_right" parent="link_box_back" origin_xyz="0 0.0 0.3" />
  
+
+
 
 </robot>

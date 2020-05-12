@@ -11,8 +11,8 @@
    <group ns="/robot1">
         <param name="/robot1/robot_description" command="$(find xacro)/xacro '$(find at_robot_simulation)/urdf/driveunit.xacro'" />
 
-        <arg name="x" default="4.0"/>
-        <arg name="y" default="2.0"/>
+        <arg name="x" default="1.0"/>
+        <arg name="y" default="1.0"/>
         <arg name="z" default="0.0"/>
         <arg name="yaw" default="1.57" />
 

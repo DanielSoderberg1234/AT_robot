@@ -197,6 +197,10 @@ class PurePursuit:
         self.cmd_vel.angular.z = 0
         self.cmd_pub.publish(self.cmd_vel)
         self.plot += 1
+
+        with open("/home/daniel/robot.txt","w") as file1: 
+            for i in range(len(self.x_traj)):
+                file1.write(str(self.x_traj[i]) + " " + str(self.y_traj[i]) +"\n"   )
         
         if self.plot == 3:
             self.plot_tracking()

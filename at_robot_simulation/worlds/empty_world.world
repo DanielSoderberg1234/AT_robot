@@ -44,7 +44,7 @@
         <include>
             <uri>model://3cmKabel</uri>
             <name>kabel2</name>
-            <pose>5 3.2 0 1.57079633 0 1.57079633</pose>
+            <pose>5 3.2 0.015 1.57079633 0 1.57079633</pose>
         </include>
 
 
